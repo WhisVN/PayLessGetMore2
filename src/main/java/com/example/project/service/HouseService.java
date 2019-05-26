@@ -50,12 +50,13 @@ public class HouseService {
 	public ResponseEntity<?> update(House house) {
 		try {
 			House existingHouse = houseRepository.findById(house.getHouseId()).orElse(null);
-
+			
 			if (existingHouse == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
 			}
 			
 			existingHouse.update(house);
+			houseRepository.save(existingHouse);
 			
 			return ResponseEntity.status(HttpStatus.OK).body("updated!");
 		} catch (Exception e) {

@@ -32,19 +32,19 @@ public class HouseController {
 	}
 	
 	@PostMapping(path="/add")
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<?> addCity(@RequestBody House house){
 		return houseService.add(house);
 	}
 	
 	@PutMapping(path="/update")
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<?> updateCity(@RequestBody House house){
 		return houseService.update(house);
 	}
 	
 	@DeleteMapping(path="/delete/{id}")
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
 	public ResponseEntity<?> deleteCity(@PathVariable Long id){
 		return houseService.delete(id);
 	}

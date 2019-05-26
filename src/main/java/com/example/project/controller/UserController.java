@@ -28,10 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER') or hasRole('CUSTOMER') or hasRole('ADMIN')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
         return userSummary;
@@ -49,8 +46,13 @@ public class UserController {
         return new UserIdentityAvailability(isAvailable);
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/user/{username}")
     public ResponseEntity<?> getUserProfile(@PathVariable(value = "username") String username) {
         return userService.getInfo(username);
+    }
+    
+    @GetMapping("/user/all")
+    public ResponseEntity<?> getAll() {
+        return userService.getAll();
     }
 }

@@ -138,13 +138,9 @@ public class House {
 		this.status = house.status;
 		this.note = house.note;
 		
-		this.district.removeHouse(this);
 		this.district = house.district;
-		this.district.addHouse(this);
 		
-		this.owner.removeHouse(this);
 		this.owner = house.owner;
-		this.owner.addHouse(this);
 	}
 }
 
