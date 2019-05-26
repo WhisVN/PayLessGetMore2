@@ -27,10 +27,6 @@ public class District {
 
 	@Column(length = 100, nullable= false)
 	private String districtName;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cityId")
-	private City city;
 	
 	@OneToMany(
 			fetch = FetchType.LAZY, 
@@ -38,6 +34,11 @@ public class District {
 			cascade = CascadeType.ALL
 	)
 	private Set<House> houses = new HashSet<>();
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cityId")
+	private City city;
+	
 
 	public District() {
 	}
@@ -63,14 +64,6 @@ public class District {
 		this.districtName = districtName;
 	}
 
-	public City getCity() {
-		return city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
-	}
-	
     public Set<House> getHouses() {
 		return houses;
 	}
@@ -78,7 +71,15 @@ public class District {
 	public void setHouses(Set<House> houses) {
 		this.houses = houses;
 	}
-	
+
+//	public City getCity() {
+//		return city;
+//	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
 	public void addHouse(House house) {
 		this.houses.add(house);
 		house.setDistrict(this);
@@ -105,11 +106,6 @@ public class District {
 	public void update(District district) {
 		this.districtName = district.districtName;
 		
-		this.city.removeDistrict(this);
-		this.city = district.city;
-		this.city.addDistrict(this);
-		
 		this.houses = district.houses;
 	}
-
 }

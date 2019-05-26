@@ -62,7 +62,7 @@ public class City {
 
     public void removeDistrict(District district) {
     	districts.remove(district);
-        district.setCity(null);
+    	district.setCity(null);
     }
     
 	public City() {

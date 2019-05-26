@@ -7,22 +7,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.project.model.City;
-import com.example.project.repository.CityRepository;
+import com.example.project.model.House;
+import com.example.project.repository.HouseRepository;
 
 @Service
-public class CityService {
+public class HouseService {
 	@Autowired
-	private CityRepository cityRepository;
+	private HouseRepository houseRepository;
 
 	public ResponseEntity<?> getUnique(Long id) {
 		try {
-			City existingCity = cityRepository.findByCityId(id).orElse(null);
+			House existingHouse = houseRepository.findById(id).orElse(null);
 
-			if (existingCity == null) {
+			if (existingHouse == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
 			}
-			return ResponseEntity.status(HttpStatus.OK).body(existingCity);
+			return ResponseEntity.status(HttpStatus.OK).body(existingHouse);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
@@ -30,38 +30,33 @@ public class CityService {
 
 	public ResponseEntity<?> getAll() {
 		try {
-			List<City> cities = cityRepository.findAll();
-			return ResponseEntity.status(HttpStatus.OK).body(cities);
+			List<House> houses = houseRepository.findAll();
+
+			return ResponseEntity.status(HttpStatus.OK).body(houses);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
 	}
 
-	public ResponseEntity<?> add(City city) {
+	public ResponseEntity<?> add(House house) {
 		try {
-			City existingCity = cityRepository.findByCityName(city.getCityName()).orElse(null);
-
-			if (existingCity != null) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already existed!");
-			}
-			
-			cityRepository.save(city);
+			houseRepository.save(house);
 			return ResponseEntity.status(HttpStatus.OK).body("added!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
 	}
 
-	public ResponseEntity<?> update(City city) {
+	public ResponseEntity<?> update(House house) {
 		try {
-			City existingCity = cityRepository.findById(city.getCityId()).orElse(null);
+			House existingHouse = houseRepository.findById(house.getHouseId()).orElse(null);
 
-			if (existingCity == null) {
+			if (existingHouse == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
 			}
 			
-			existingCity.update(city);
-			cityRepository.save(existingCity);
+			existingHouse.update(house);
+			
 			return ResponseEntity.status(HttpStatus.OK).body("updated!");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
@@ -70,18 +65,18 @@ public class CityService {
 
 	public ResponseEntity<?> delete(Long id) {
 		try {
-			City existingCity = cityRepository.findById(id).orElse(null);
+			House existingHouse = houseRepository.findById(id).orElse(null);
 
-			if (existingCity == null) {
+			if (existingHouse == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
 			}
 			else {
-				cityRepository.delete(existingCity);
+				houseRepository.delete(existingHouse);
 				return ResponseEntity.status(HttpStatus.OK).body("deleted!");
 			}
-
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
 	}
+
 }

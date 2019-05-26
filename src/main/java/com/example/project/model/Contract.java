@@ -22,12 +22,12 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "house_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "house_id")
     private House house;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
@@ -52,5 +52,10 @@ public class Contract {
 
 	public void setHouse(House house) {
 		this.house = house;
+	}
+
+	public void update(Contract contract) {
+		this.house = contract.house;
+		this.user = contract.user;
 	}
 }

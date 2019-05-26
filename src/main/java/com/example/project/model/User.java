@@ -53,9 +53,8 @@ public class User {
 	
 	@OneToMany(
 			fetch = FetchType.LAZY, 
-			mappedBy = "district",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
+			mappedBy = "owner",
+			cascade = CascadeType.ALL
 	)
 	private Set<House> houses = new HashSet<>();
 

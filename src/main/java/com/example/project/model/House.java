@@ -100,17 +100,17 @@ public class House {
 		this.note = note;
 	}
 
-	public User getOwner() {
-		return owner;
-	}
+//	public User getOwner() {
+//		return owner;
+//	}
 
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 
-	public District getDistrict() {
-		return district;
-	}
+//	public District getDistrict() {
+//		return district;
+//	}
 
 	public void setDistrict(District district) {
 		this.district = district;
@@ -128,5 +128,23 @@ public class House {
     public int hashCode() {
         return Objects.hash(houseId);
     }
+
+
+	public void update(House house) {
+		this.specificAddress = house.specificAddress;
+		this.room = house.room;
+		this.images = house.images;
+		this.vote = house.vote;
+		this.status = house.status;
+		this.note = house.note;
+		
+		this.district.removeHouse(this);
+		this.district = house.district;
+		this.district.addHouse(this);
+		
+		this.owner.removeHouse(this);
+		this.owner = house.owner;
+		this.owner.addHouse(this);
+	}
 }
 
