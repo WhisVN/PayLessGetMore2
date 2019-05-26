@@ -15,27 +15,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity(name = "District")
-@Table(name = "district")
+@Table(name = "district", uniqueConstraints = { @UniqueConstraint(columnNames = { "districtName" }) })
 public class District {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long districtId;
 
-	@Column(length = 100)
+	@Column(length = 100, nullable= false)
 	private String districtName;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cityId", nullable = false)
+	@JoinColumn(name = "cityId")
 	private City city;
 	
 	@OneToMany(
 			fetch = FetchType.LAZY, 
 			mappedBy = "district",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
+			cascade = CascadeType.ALL
 	)
 	private Set<House> houses = new HashSet<>();
 
@@ -101,5 +101,15 @@ public class District {
     public int hashCode() {
         return Objects.hash(districtId);
     }
+
+	public void update(District district) {
+		this.districtName = district.districtName;
+		
+		this.city.removeDistrict(this);
+		this.city = district.city;
+		this.city.addDistrict(this);
+		
+		this.houses = district.houses;
+	}
 
 }

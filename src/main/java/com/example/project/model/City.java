@@ -12,22 +12,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity(name = "City")
-@Table(name = "city")
+@Table(name = "city", uniqueConstraints = { @UniqueConstraint(columnNames = { "cityName" }) } )
 public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long cityId;
 
-	@Column(length = 100)
+	@Column(length = 100, nullable = false)
 	private String cityName;
 
 	@OneToMany(
 			fetch = FetchType.LAZY, 
 			mappedBy = "city",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
+			cascade = CascadeType.ALL
 	)
 	private Set<District> districts = new HashSet<>();
 
@@ -66,5 +66,10 @@ public class City {
     }
     
 	public City() {
+	}
+
+	public void update(City city) {
+		this.cityName = city.cityName;
+		this.districts =city.districts;
 	}
 }
