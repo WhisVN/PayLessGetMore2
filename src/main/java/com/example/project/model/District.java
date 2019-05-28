@@ -64,9 +64,9 @@ public class District {
 		this.districtName = districtName;
 	}
 
-    public Set<House> getHouses() {
-		return houses;
-	}
+//    public Set<House> getHouses() {
+//		return houses;
+//	}
 
 	public void setHouses(Set<House> houses) {
 		this.houses = houses;

@@ -1,10 +1,7 @@
 package com.example.project.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +44,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<?> getUserProfile(@PathVariable(value = "username") String username) {
-        return userService.getInfo(username);
+    public ResponseEntity<?> getUserProfileByUsername(@PathVariable(value = "username") String username) {
+        return userService.getInfoByUsername(username);
+    }
+    
+    @GetMapping("/user/id/{id}")
+    public ResponseEntity<?> getUserProfileById(@PathVariable(value = "id") Long id) {
+        return userService.getInfoById(id);
     }
     
     @GetMapping("/user/all")

@@ -7,13 +7,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.project.model.District;
 import com.example.project.model.House;
+import com.example.project.model.User;
+import com.example.project.repository.DistrictRepository;
 import com.example.project.repository.HouseRepository;
+import com.example.project.repository.UserRepository;
 
 @Service
 public class HouseService {
 	@Autowired
 	private HouseRepository houseRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private DistrictRepository districtRepository;
 
 	public ResponseEntity<?> getUnique(Long id) {
 		try {
@@ -55,11 +65,17 @@ public class HouseService {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
 			}
 			
+			User owner = userRepository.findById(house.getOwner().getId()).orElse(null);
+			District district = districtRepository.findById(house.getDistrict().getDistrictId()).orElse(null);
+			house.setDistrict(district);
+			house.setOwner(owner);
+					
 			existingHouse.update(house);
 			houseRepository.save(existingHouse);
 			
 			return ResponseEntity.status(HttpStatus.OK).body("updated!");
 		} catch (Exception e) {
+			//e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
 	}

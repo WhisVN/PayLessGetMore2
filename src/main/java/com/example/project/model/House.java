@@ -2,6 +2,7 @@ package com.example.project.model;
 
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,27 +31,24 @@ public class House {
 
 	private String note;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "districtId", nullable = false)
 	private District district;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="owner_id")
 	private User owner;
 
 	public House() {
 	}
-	
 
 	public Long getVote() {
 		return vote;
 	}
 
-
 	public void setVote(Long vote) {
 		this.vote = vote;
 	}
-
 
 	public Long getHouseId() {
 		return houseId;
@@ -100,17 +98,17 @@ public class House {
 		this.note = note;
 	}
 
-//	public User getOwner() {
-//		return owner;
-//	}
+	public User getOwner() {
+		return owner;
+	}
 
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 
-//	public District getDistrict() {
-//		return district;
-//	}
+	public District getDistrict() {
+		return district;
+	}
 
 	public void setDistrict(District district) {
 		this.district = district;

@@ -117,9 +117,9 @@ public class User {
 		this.roles = roles;
 	}
 
-	public Set<House> getHouses() {
-		return houses;
-	}
+//	public Set<House> getHouses() {
+//		return houses;
+//	}
 
 	public void setHouses(Set<House> houses) {
 		this.houses = houses;

@@ -15,7 +15,7 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public ResponseEntity<?> getInfo(String username) {
+	public ResponseEntity<?> getInfoByUsername(String username) {
 		try {
 			User existingUser = userRepository.findByUsername(username).orElse(null);
 
@@ -27,6 +27,20 @@ public class UserService {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
 	}
+	
+	public ResponseEntity<?> getInfoById(Long id) {
+		try {
+			User existingUser = userRepository.findById(id).orElse(null);
+
+			if (existingUser == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
+			}
+			return ResponseEntity.status(HttpStatus.OK).body(existingUser);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
+		}
+	}
+	
 
 	public ResponseEntity<?> getAll() {
 		try {
@@ -37,6 +51,5 @@ public class UserService {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + e.getMessage());
 		}
 	}
-	
 	
 }
